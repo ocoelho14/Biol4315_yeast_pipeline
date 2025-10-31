@@ -1,0 +1,64 @@
+---
+title: "pipeline"
+output: html_document
+---
+
+reads <- "/Users/ocoelho00/Documents/biol4315/repos/yeast_project/Nakazawaea_holstii.fastq"
+
+# Un-trimmed
+
+## Run sequali on un-trimmed reads
+```{bash, eval=FALSE}
+sequali --outdir ./Un-trimmed/sequali_reports ./Un-trimmed/Nakazawaea_holstii.fastq
+```
+
+## Run flye on un-trimmed reads
+```{bash, eval=FALSE}
+flye --nano-raw ./Un-trimmed/Nakazawaea_holstii.fastq --out-dir ./Un-trimmed/flye_output --threads 8 --genome-size 13m
+```
+Assembly statistics:
+    Total length:   13055090
+    Fragments:      307
+    Fragments N50:  69382
+    Largest frg:    406130
+    Scaffolds:      0
+    Mean coverage:  8
+
+
+# Trimmed reads
+
+## Get trimmed fastq
+```{bash, eval=FALSE}
+filtlong --min_length 120 ./Un-trimmed/Nakazawaea_holstii.fastq > ./Trimmed/trimmed_Nakazawaea_holstii.fastq
+```
+
+```{bash, eval=FALSE}
+sequali --outdir ./Trimmed/sequali_reports ./Trimmed/trimmed_Nakazawaea_holstii.fastq
+```
+
+## Run flye on trimmed reads
+```{bash, eval=FALSE}
+flye --nano-raw ./Trimmed/trimmed_Nakazawaea_holstii.fastq --out-dir ./Trimmed/flye_output --threads 8 --genome-size 13m
+```
+Assembly statistics:
+    Total length:   13074047
+    Fragments:      31
+    Fragments N50:  70378
+    Largest frg:    406126
+    Scaffolds:      0
+    Mean coverage:  8
+
+
+# Trimmed funannotate
+
+## Create mask 
+```{bash, eval=FALSE}
+docker run --rm -v "$PWD":/data -w /data --platform linux/amd64 nextgenusfs/funannotate funannotate mask -i ./Trimmed/flye_output/assembly.fasta -o ./Trimmed/trimmed_masked_assembly.fasta
+```
+
+```{bash, eval=FALSE}
+docker run --rm -v "$PWD":/data -w /data --platform linux/amd64 nextgenusfs/funannotate funannotate predict -i ./Trimmed/trimmed_masked_assembly.fasta -o ./Trimmed/prediction_output -s 'Nakazawaea holstii'
+```
+
+
+
