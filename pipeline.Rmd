@@ -3,18 +3,20 @@ title: "pipeline"
 output: html_document
 ---
 
+# For Nakazawaea holstii
+
 reads <- "/Users/ocoelho00/Documents/biol4315/repos/yeast_project/Nakazawaea_holstii.fastq"
 
 # Un-trimmed
 
 ## Run sequali on un-trimmed reads
 ```{bash, eval=FALSE}
-sequali --outdir ./Un-trimmed/sequali_reports ./Un-trimmed/Nakazawaea_holstii.fastq
+sequali --outdir ./Un-trimmed/sequali_reports_holstii ./Un-trimmed/Nakazawaea_holstii.fastq
 ```
 
 ## Run flye on un-trimmed reads
 ```{bash, eval=FALSE}
-flye --nano-raw ./Un-trimmed/Nakazawaea_holstii.fastq --out-dir ./Un-trimmed/flye_output --threads 8 --genome-size 13m
+flye --nano-raw ./Un-trimmed/Nakazawaea_holstii.fastq --out-dir ./Un-trimmed/flye_output_holstii --threads 8 --genome-size 13m
 ```
 Assembly statistics:
     Total length:   13055090
@@ -33,12 +35,12 @@ filtlong --min_length 120 ./Un-trimmed/Nakazawaea_holstii.fastq > ./Trimmed/trim
 ```
 
 ```{bash, eval=FALSE}
-sequali --outdir ./Trimmed/sequali_reports ./Trimmed/trimmed_Nakazawaea_holstii.fastq
+sequali --outdir ./Trimmed/sequali_reports_holstii ./Trimmed/trimmed_Nakazawaea_holstii.fastq
 ```
 
 ## Run flye on trimmed reads
 ```{bash, eval=FALSE}
-flye --nano-raw ./Trimmed/trimmed_Nakazawaea_holstii.fastq --out-dir ./Trimmed/flye_output --threads 8 --genome-size 13m
+flye --nano-raw ./Trimmed/trimmed_Nakazawaea_holstii.fastq --out-dir ./Trimmed/flye_output_holstii --threads 8 --genome-size 13m
 ```
 Assembly statistics:
     Total length:   13074047
@@ -53,12 +55,70 @@ Assembly statistics:
 
 ## Create mask 
 ```{bash, eval=FALSE}
-docker run --rm -v "$PWD":/data -w /data --platform linux/amd64 nextgenusfs/funannotate funannotate mask -i ./Trimmed/flye_output/assembly.fasta -o ./Trimmed/trimmed_masked_assembly.fasta
+docker run --rm -v "$PWD":/data -w /data --platform linux/amd64 nextgenusfs/funannotate funannotate mask -i ./Trimmed/flye_output_holstii/assembly.fasta -o ./Trimmed/trimmed_masked_assembly_holstii.fasta
 ```
 
 ```{bash, eval=FALSE}
-docker run --rm -v "$PWD":/data -w /data --platform linux/amd64 nextgenusfs/funannotate funannotate predict -i ./Trimmed/trimmed_masked_assembly.fasta -o ./Trimmed/prediction_output -s 'Nakazawaea holstii'
+docker run --rm -v "$PWD":/data -w /data --platform linux/amd64 nextgenusfs/funannotate funannotate predict -i ./Trimmed/trimmed_masked_assembly_holstii.fasta -o ./Trimmed/prediction_output_holstii -s 'Nakazawaea holstii'
 ```
 
+```{bash, eval=FALSE}
+docker run --rm -v "$PWD":/data -w /data --platform linux/amd64 nextgenusfs/funannotate funannotate annotate -i ./Trimmed/prediction_output_holstii/ -o ./Trimmed/annotate_output_holstii
+```
+
+___________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________
+# For Nakazawaea holstii
+
+reads <- "/Users/ocoelho00/Documents/biol4315/repos/yeast_project/Nakazawaea_popuil.fastq"
+
+# Un-trimmed
+
+## Run sequali on un-trimmed reads
+```{bash, eval=FALSE}
+sequali --outdir ./Un-trimmed/sequali_reports_popuil ./Un-trimmed/Nakazawaea_popuil.fastq
+```
+
+# Trimmed reads
+
+## Get trimmed fastq
+```{bash, eval=FALSE}
+filtlong --min_length 120 ./Un-trimmed/Nakazawaea_popuil.fastq > ./Trimmed/trimmed_Nakazawaea_popuil.fastq
+```
+
+```{bash, eval=FALSE}
+sequali --outdir ./Trimmed/sequali_reports_popuil ./Trimmed/trimmed_Nakazawaea_popuil.fastq
+```
+
+## Run flye on trimmed reads
+```{bash, eval=FALSE}
+flye --nano-raw ./Trimmed/trimmed_Nakazawaea_popuil.fastq --out-dir ./Trimmed/flye_output_popuil --threads 8 --genome-size 13m
+```
+Assembly statistics:
+    Total length:   13831975
+    Fragments:      20
+    Fragments N50:  1947967
+    Largest frg:    2729774
+    Scaffolds:      0
+    Mean coverage:  46
+
+
+
+# Trimmed funannotate
+
+## Create mask 
+```{bash, eval=FALSE}
+docker run --rm -v "$PWD":/data -w /data --platform linux/amd64 nextgenusfs/funannotate funannotate mask -i ./Trimmed/flye_output_popuil/assembly.fasta -o ./Trimmed/trimmed_masked_assembly_popuil.fasta
+```
+
+```{bash, eval=FALSE}
+docker run --rm -v "$PWD":/data -w /data --platform linux/amd64 nextgenusfs/funannotate funannotate predict -i ./Trimmed/trimmed_masked_assembly_popuil.fasta -o ./Trimmed/prediction_output_popuil -s 'Nakazawaea popuil'
+```
+
+```{bash, eval=FALSE}
+docker run --rm -v "$PWD":/data -w /data --platform linux/amd64 nextgenusfs/funannotate funannotate annotate -i ./Trimmed/prediction_output_popuil/ -o ./Trimmed/annotate_output_popuil
+````
 
 
