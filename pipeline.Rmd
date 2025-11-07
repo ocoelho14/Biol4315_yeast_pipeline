@@ -26,6 +26,11 @@ Assembly statistics:
     Scaffolds:      0
     Mean coverage:  8
 
+___________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________
+
 
 # Trimmed reads
 
@@ -58,18 +63,50 @@ Assembly statistics:
 docker run --rm -v "$PWD":/data -w /data --platform linux/amd64 nextgenusfs/funannotate funannotate mask -i ./Trimmed/flye_output_holstii/assembly.fasta -o ./Trimmed/trimmed_masked_assembly_holstii.fasta
 ```
 
+## Run prediction
 ```{bash, eval=FALSE}
 docker run --rm -v "$PWD":/data -w /data --platform linux/amd64 nextgenusfs/funannotate funannotate predict -i ./Trimmed/trimmed_masked_assembly_holstii.fasta -o ./Trimmed/prediction_output_holstii -s 'Nakazawaea holstii'
 ```
 
+## Run annotation
 ```{bash, eval=FALSE}
 docker run --rm -v "$PWD":/data -w /data --platform linux/amd64 nextgenusfs/funannotate funannotate annotate -i ./Trimmed/prediction_output_holstii/ -o ./Trimmed/annotate_output_holstii
 ```
+
+## Run BUSCO
+```{bash, eval=FALSE}
+docker run --rm \
+  -v "$PWD":/data \
+  -w /data \
+  ezlabgva/busco:v6.0.0_cv1 \
+  busco -i ./Trimmed/flye_output_holstii/assembly.fasta -o ./Trimmed/busco_output_holstii -l saccharomycetaceae_odb12 -m genome -c 8
+```
+
+|C:48.1%[S:47.3%,D:0.8%],F:1.2%,M:50.6%,n:3282,E:48.6%                                     
+    |1579    Complete BUSCOs (C)    (of which 768 contain internal stop codons)             
+    |1553    Complete and single-copy BUSCOs (S)                                            
+    |26    Complete and duplicated BUSCOs (D)                                              
+    |41    Fragmented BUSCOs (F)                                                            
+    |1662    Missing BUSCOs (M)                                                             
+    |3282    Total BUSCO groups searched  
+    
+## Run Quast  (https://www.ebi.ac.uk/ena/browser/view/GCA_003706265.1)
+```{bash, eval=FALSE}
+docker run --rm -v "$(pwd)":/data -w /data quay.io/biocontainers/quast:5.3.0--py313pl5321h5ca1c30_2 \
+  quast.py ./Trimmed/flye_output_holstii/assembly.fasta \
+  -r ./Un-trimmed/GCA_003706265.1_holstii.fasta \
+  -o ./Trimmed/quast_output_holstii
+```
+
+ambiguity: one, min local misassembly length: 200, min extensive misassembly length: 1000
+N50 = 70378, L50 = 42, auN = 120651.3, Total length = 13073587, GC % = 35.61, # N's per 100 kbp =  0.00
+Largest alignment = 77998, NA50 = None, LA50 = None
 
 ___________________________________________________________________________________________________________________________________
 ___________________________________________________________________________________________________________________________________
 ___________________________________________________________________________________________________________________________________
 ___________________________________________________________________________________________________________________________________
+
 # For Nakazawaea holstii
 
 reads <- "/Users/ocoelho00/Documents/biol4315/repos/yeast_project/Nakazawaea_popuil.fastq"
@@ -113,12 +150,41 @@ Assembly statistics:
 docker run --rm -v "$PWD":/data -w /data --platform linux/amd64 nextgenusfs/funannotate funannotate mask -i ./Trimmed/flye_output_popuil/assembly.fasta -o ./Trimmed/trimmed_masked_assembly_popuil.fasta
 ```
 
+## Run prediction
 ```{bash, eval=FALSE}
 docker run --rm -v "$PWD":/data -w /data --platform linux/amd64 nextgenusfs/funannotate funannotate predict -i ./Trimmed/trimmed_masked_assembly_popuil.fasta -o ./Trimmed/prediction_output_popuil -s 'Nakazawaea popuil'
 ```
 
+## Run annotation
 ```{bash, eval=FALSE}
 docker run --rm -v "$PWD":/data -w /data --platform linux/amd64 nextgenusfs/funannotate funannotate annotate -i ./Trimmed/prediction_output_popuil/ -o ./Trimmed/annotate_output_popuil
-````
+```
 
+## Run BUSCO
+```{bash, eval=FALSE}
+docker run --rm \
+  -v "$PWD":/data \
+  -w /data \
+  ezlabgva/busco:v6.0.0_cv1 \
+  busco -i ./Trimmed/flye_output_popuil/assembly.fasta -o ./Trimmed/busco_output_popuil -l saccharomycetaceae_odb12 -m genome -c 8
+```
 
+ |C:48.9%[S:48.2%,D:0.7%],F:1.3%,M:49.8%,n:3282,E:49.2%                                   
+    |1606    Complete BUSCOs (C)    (of which 790 contain internal stop codons)             
+    |1583    Complete and single-copy BUSCOs (S)                                          
+    |23    Complete and duplicated BUSCOs (D)                                               
+    |42    Fragmented BUSCOs (F)                                                            
+    |1634    Missing BUSCOs (M)                                                            
+    |3282    Total BUSCO groups searched  
+    
+## Run Quast  (https://www.ebi.ac.uk/ena/browser/view/GCA_030557235)
+```{bash, eval=FALSE}
+docker run --rm -v "$(pwd)":/data -w /data quay.io/biocontainers/quast:5.3.0--py313pl5321h5ca1c30_2 \
+  quast.py ./Trimmed/flye_output_popuil/assembly.fasta \
+  -r ./Un-trimmed/GCA_030557235.1_popuil.fasta \
+  -o ./Trimmed/quast_output_popuil
+```
+
+ambiguity: one, min local misassembly length: 200, min extensive misassembly length: 1000
+N50 = 1947967, L50 = 3, auN = 1777300.2, Total length = 13831975, GC % = 37.52, # N's per 100 kbp =  0.00
+Largest alignment = 400630, NA50 = 18817, NGA50 = 21266, LA50 = 87, LGA50 = 80
