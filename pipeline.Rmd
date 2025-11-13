@@ -85,8 +85,8 @@ docker run --rm \
 |C:48.1%[S:47.3%,D:0.8%],F:1.2%,M:50.6%,n:3282,E:48.6%                                     
     |1579    Complete BUSCOs (C)    (of which 768 contain internal stop codons)             
     |1553    Complete and single-copy BUSCOs (S)                                            
-    |26    Complete and duplicated BUSCOs (D)                                              
-    |41    Fragmented BUSCOs (F)                                                            
+    |26      Complete and duplicated BUSCOs (D)                                              
+    |41      Fragmented BUSCOs (F)                                                            
     |1662    Missing BUSCOs (M)                                                             
     |3282    Total BUSCO groups searched  
     
@@ -188,6 +188,12 @@ docker run --rm -v "$(pwd)":/data -w /data quay.io/biocontainers/quast:5.3.0--py
 ambiguity: one, min local misassembly length: 200, min extensive misassembly length: 1000
 N50 = 1947967, L50 = 3, auN = 1777300.2, Total length = 13831975, GC % = 37.52, # N's per 100 kbp =  0.00
 Largest alignment = 400630, NA50 = 18817, NGA50 = 21266, LA50 = 87, LGA50 = 80
+
+
+
+
+holstii_eggnog <- "/Users/ocoelho00/Documents/biol4315/repos/yeast_project/eggnog/nakazawaea_holstii/MM_pu8bw7jh.emapper.annotations.xlsx"
+populi_eggnog <- "/Users/ocoelho00/Documents/biol4315/repos/yeast_project/eggnog/nakazawaea_populi/MM_jx78ya44.emapper.annotations.xlsx"
 
 
 
