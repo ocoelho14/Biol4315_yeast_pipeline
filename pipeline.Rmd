@@ -188,3 +188,27 @@ docker run --rm -v "$(pwd)":/data -w /data quay.io/biocontainers/quast:5.3.0--py
 ambiguity: one, min local misassembly length: 200, min extensive misassembly length: 1000
 N50 = 1947967, L50 = 3, auN = 1777300.2, Total length = 13831975, GC % = 37.52, # N's per 100 kbp =  0.00
 Largest alignment = 400630, NA50 = 18817, NGA50 = 21266, LA50 = 87, LGA50 = 80
+
+
+
+
+
+=== Computational Environment ===
+R version   : R version 4.4.0 (2024-04-24) 
+Platform    : aarch64-apple-darwin20 
+OS          : darwin20 
+System      : Darwin 24.6.0 
+Machine     : arm64 
+Node name   : T450-C003-94656 
+R home      : /Library/Frameworks/R.framework/Resources 
+CPU cores   : 8 
+
+
+=== Tool Versions ===
+     tool                                                      path found         version
+  sequali  /Users/ocoelho00/miniconda3/envs/sequali_env/bin/sequali  TRUE           1.0.1
+ filtlong /Users/ocoelho00/miniconda3/envs/sequali_env/bin/filtlong  TRUE Filtlong v0.3.1
+  chopper  /Users/ocoelho00/miniconda3/envs/sequali_env/bin/chopper  TRUE  chopper 0.11.0
+     flye     /Users/ocoelho00/miniconda3/envs/sequali_env/bin/flye  TRUE     2.9.6-b1802
+    quast /Users/ocoelho00/miniconda3/envs/sequali_env/bin/quast.py FALSE           5.3.0
+    busco    /Users/ocoelho00/miniconda3/envs/sequali_env/bin/busco FALSE           6.0.0
